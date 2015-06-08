@@ -1,0 +1,19 @@
+# Atividade de Probabilidade e Inferência
+# Geração de gráficos
+set.seed(350)
+sigma = 2
+mu = 2
+X = rnorm(n=1000,mean=mu,sd=sigma)
+y = (x - mu)/sigma
+Y = (1/(sqrt(2*pi)))*exp(-((X-mu)^2)/(2*(sigma^2)))
+
+# Hist X e Fx, analiticamente
+hist(X, breaks = "FD", probability = TRUE)
+x=X
+curve(dnorm(x,mu,sigma), col = 2, add=TRUE)
+
+# Hist Y e Fy, analiticamente
+hist(y, breaks = "FD", probability = TRUE)
+x=Y
+# mais coisas a trabalhar por aqui
+points(x, col = 3, add=TRUE, type = "b")
