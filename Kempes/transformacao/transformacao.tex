@@ -113,7 +113,7 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 \section{Resolução das transformações propostas}
 
 \begin{enumerate}
-  \item Tendo $X \sim N(\mu,\sigma)$
+  \item Tendo $X \sim N(\mu,\sigma^2)$
   
     A função gaussiana tem por função de distribuição
 
@@ -132,13 +132,12 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 
         $f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(y\sigma+\mu)\sigma$\\
 
-        $f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(y\sigma+\mu-\mu)^2}{2\sigma^2}}\sigma = \frac{1}{\sqrt{2\pi}}e^{-\frac{(y\sigma)^2}{2\sigma^2}}$\\
+        $f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(y\sigma+\mu-\mu)^2}{2\sigma^2}}\sigma = \frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}$\\
         
-        $f_Y(y) = \frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}} = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2} = \frac{1}{\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$\\
 
         Esta é a expressão para $X \leq \mu$, isto é, crescente. Para $X > \mu$
         
-        $f_Y(y) = -\frac{1}{\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$\\
+        $f_Y(y) = -\frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}$\\
 
         Para demonstrar a transformação se usará $\sigma=1$ e $\mu=0$\\
         
@@ -148,28 +147,23 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 > sigma <- 1
 > mu <- 0
 > X <- rnorm(n=1000,mean=mu,sd=sigma)
-> Ytrans <- function(x,mean=mu,sd=sigma){
-+   yt <- (1/(sqrt(2*pi)))*exp(-((x-mean)^2)/(2*(sd^2)))
-+   return <- ifelse(x<=mean,yt,-yt)
+> Ytrans <- function(y,mean=mu,sd=sigma){
++   yt <- (1/sqrt(2*pi))*exp(-(y^2)/2)
++   return <- ifelse(y<=mean,yt,-yt)
 + } 
-> Y <- Ytrans(X)
-> hist(X,ylab="Frequência",main="Histograma de X",xlim=c(-4,4))
+> fY <- Ytrans(X)
+> fX <- dnorm(X,mean=mu,sd=sigma)
+> hist(fX,ylab="Frequência",main="Histograma de fX")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{transformacao-001}
 \begin{Schunk}
 \begin{Sinput}
-> hist(Y,ylab="Frequência",main="Histograma de Y")
-> 
+> hist(fY,ylab="Frequência",main="Histograma de fY")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{transformacao-002}
-\begin{Schunk}
-\begin{Sinput}
-> plot(X,Y)
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-003}
+
 
 
       \item Para $Y = \frac{\sigma}{X-\mu}$\\
@@ -186,13 +180,11 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 
         $f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(\frac{\sigma}{y}+\mu-\mu)^2}{2\sigma^2}}(-\sigma y^{-2}) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{1}{y})^2}(-\sigma y^{-2})$\\
 
-        $f_Y(y) = -y^{-2}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}y^{-2}} = -(\frac{\sigma}{x-\mu})^{-2}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{\sigma}{x-\mu})^{-2}}$\\      
-
-        $f_Y(y) = -\frac{(x-\mu)^2}{\sigma^2}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}\frac{(x-\mu)^2}{\sigma^2}} =  -\frac{(x-\mu)^2}{\sigma^{2}\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$\\
+        $f_Y(y) = -\frac{1}{y^2\sqrt{2\pi}}e^{-\frac{1}{2y^2}}$\\      
 
         Esta é a expressão para $X \leq \mu$, isto é, crescente. Para $X > \mu$
 
-        $f_Y(y) = \frac{(x-\mu)^2}{\sigma^{2}\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$\\
+        $f_Y(y) = \frac{1}{y^2\sqrt{2\pi}}e^{-\frac{1}{2y^2}}$\\
         
         Para demonstrar a transformação se usará $\sigma=1$ e $\mu=0$\\
 
@@ -202,39 +194,33 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 > sigma <- 1
 > mu <- 0
 > X <- rnorm(n=1000,mean=mu,sd=sigma)
-> Ytrans <- function(x,mean=mu,sd=sigma){
+> Ytrans <- function(y,mean=mu,sd=sigma){
 +   ret <- NULL
-+   yt <- (((x-mean)^2)/((sd^2)*sqrt(2*pi)))* 
-+     exp(-(((x-mean)^2)/(2*(sd^2))));
-+   if(x<mean){
++   yt <- (1/((y^2)*sqrt(2*pi)))*exp(-1/(2*y^2));
++   if(y<mean){
 +     ret <- -yt
 +   }else{
-+     if(x>mean){
++     if(y>mean){
 +       ret <- yt
 +     }
 +   }
 +   return <- ret 
 + }
-> Y <- sapply(X,Ytrans)
-> Y<-subset(Y,Y!=0)
-> hist(X,ylab="Frequência",main="Histograma de X",xlim=c(-4,4))
+> fX <- dnorm(X,mean=mu,sd=sigma)
+> fY <- sapply(X,Ytrans)
+> fY<-subset(fY,fY!=0)
+> hist(fX,ylab="Frequência",main="Histograma de fX")
+\end{Sinput}
+\end{Schunk}
+\includegraphics{transformacao-003}
+
+\begin{Schunk}
+\begin{Sinput}
+> hist(x=fY,ylab="Frequência",main="Histograma de fY")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{transformacao-004}
 
-\begin{Schunk}
-\begin{Sinput}
-> hist(x=Y,ylab="Frequência",main="Histograma de Y")
-> 
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-005}
-\begin{Schunk}
-\begin{Sinput}
-> plot(X,Y)
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-006}
       \item Para $Y = (\frac{X-\mu}{\sigma})^3$
       
         $Y = g(X) = (\frac{X-\mu}{\sigma})^3$ para $\sigma \neq 0$\\
@@ -249,13 +235,9 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 
         $f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(\sigma y^{\frac{1}{3}}+\mu-\mu)^2}{2\sigma^2}}(\frac{1}{3}\sigma y^{-\frac{2}{3}}) = y^{-\frac{2}{3}}\frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}y^{\frac{2}{3}}}$\\ 
 
-        $f_Y(y) = ((\frac{x-\mu}{\sigma})^3)^{-\frac{2}{3}}\frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}((\frac{x-\mu}{\sigma})^3)^{\frac{2}{3}}} = (\frac{x-\mu}{\sigma})^{-2}\frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^{2}}$\\
-         
-        $f_Y(y) = \frac{\sigma^2}{3(x-\mu)^2\sqrt{2\pi}}e^{-\frac{(x-\mu)^{2}}{2\sigma^2}}$\\
-
         A função gaussiana é crescente para $X \leq \mu$ e decrescente para $X > \mu$.\\
 
-        $f_Y(y) = -\frac{\sigma^2}{3(x-\mu)^2\sqrt{2\pi}}e^{-\frac{(x-\mu)^{2}}{2\sigma^2}}$\\
+        $f_Y(y) = -y^{-\frac{2}{3}}\frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}y^{\frac{2}{3}}}$\\ 
         
         Para demonstrar a transformação se usará $\sigma=1$ e $\mu=0$\\
 
@@ -265,30 +247,24 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 > sigma <- 1
 > mu <- 0
 > X <- rnorm(n=1000,mean=mu,sd=sigma)
-> Ytrans <- function(x,mean=mu,sd=sigma){
-+   yt <- ((sd^2)/(3*((x-mean)^2)*sqrt(2*pi)))*exp(-(((x-mean)^2)/(2*(sd^2))))
-+   return <- ifelse(x>mean,yt,-yt)
+> Ytrans <- function(y,mean=mu,sd=sigma){
++   yt <- -(y^(-2/3))*(1/(3*sqrt(2*pi)))*exp(-(1/2)*y^(2/3))
++   return <- ifelse(y>mean,yt,-yt)
 + }
-> Y <- Ytrans(X)
-> hist(X,ylab="Frequência",main="Histograma de X",xlim=c(-4,4))
+> fX <- dnorm(X,mean=mu,sd=sigma)
+> fY <- Ytrans(X)
+> hist(fX,ylab="Frequência",main="Histograma de fX")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-007}
+\includegraphics{transformacao-005}
 
 \begin{Schunk}
 \begin{Sinput}
-> hist(x=Y,ylab="Frequência",main="Histograma de Y",xlim=c(-1,1))
+> hist(x=fY,ylab="Frequência",main="Histograma de fY")
 > 
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-008}
-\begin{Schunk}
-\begin{Sinput}
-> plot(X,Y)
-> 
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-009}
+\includegraphics{transformacao-006}
 
 
     \end{enumerate}
@@ -310,9 +286,7 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
   
   $f_Y(y) = -f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = -f_X(y^\frac{1}{p})\frac{1}{p}y^\frac{1-p}{p}$\\
   
-  $f_Y(y) = -(\lambda e^{-\lambda y^\frac{1}{p}})\frac{1}{p}y^\frac{1-p}{p} = -(\lambda e^{-\lambda (x^p)^\frac{1}{p}})\frac{1}{p}(x^p)^\frac{1-p}{p}$\\
-  
-  $f_Y(y) = -\frac{x^{1-p}}{p}\lambda e^{-\lambda x}$\\
+  $f_Y(y) = -(\lambda e^{-\lambda y^\frac{1}{p}})\frac{1}{p}y^\frac{1-p}{p}$\\
   
   Para demonstrar a transformação se usará $\lambda=1$ e $p=3$\\
 
@@ -320,31 +294,25 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 \begin{Sinput}
 > set.seed(236)
 > lambda <- 1
-> p <- -15
+> p <- -3
 > X <- rexp(n=1000,rate=lambda)
-> Ytrans <- function(x,rate=lambda,ep=p){
-+   return <- -((x^(1-ep))/(ep))*rate*exp(-rate*x)
+> Ytrans <- function(y,rate=lambda,ep=p){
++   return <- -rate*exp(-rate*y^(1/ep))*(1/ep)*y^((1-p)/p)
 + }
-> Y <- Ytrans(X)
-> hist(X,ylab="Frequência",main="Histograma de X")
+> fX <- dexp(X,rate=lambda)
+> fY <- Ytrans(X)
+> hist(fX,ylab="Frequência",main="Histograma de fX")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-010}
+\includegraphics{transformacao-007}
 
 \begin{Schunk}
 \begin{Sinput}
-> hist(x=Y,ylab="Frequência",main="Histograma de Y")
+> hist(x=fY,ylab="Frequência",main="Histograma de fY")
 > 
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-011}
-\begin{Schunk}
-\begin{Sinput}
-> plot(X,Y)
-> 
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-012}
+\includegraphics{transformacao-008}
 
 
   
@@ -367,36 +335,44 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
   
   $f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(\frac{a}{y}-b)(-ay^{-2})$\\
   
-  $f_Y(y) = \frac{1}{b-a}(-ay^{-2}) = \frac{1}{b-a}a(ax+b)^{-2}$
+  $f_Y(y) = \frac{1}{b-a}(-ay^{-2}) = -\frac{a}{y^2(b-a)}$
   
 \begin{Schunk}
 \begin{Sinput}
 > set.seed(236)
 > a <- 1
-> b <- 1000
+> b <- 3
 > X <- runif(n=1000,min=a,max=b)
-> Ytrans <- function(x,min=a,max=b){
-+   return <- (1/(max-min))*min*((min*x+max)^-2)
+> Ytrans <- function(y,min=a,max=b){
++   return <- -min/((y^2)*(max-min))
 + }
-> Y <- Ytrans(X)
-> hist(X,ylab="Frequência",main="Histograma de X")
+> Y <- function(x=1,A=1,B=1){
++   return <- A*x+b
++ }
+> pY <- function(vY,min){
++   ret <- 1:vY
++   for(i in 1:length(vY)){
++     ret[i] <- as.numeric(integrate(f=Ytrans,lower=min,upper=vY)[1])
++   }
++   return <- ret
++ }
+> fX <- dunif(X,min=a,max=b)
+> fY <- Ytrans(X)
+> hist(fX,ylab="Frequência",main="Histograma de fX")
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-013}
+\includegraphics{transformacao-009}
 
 \begin{Schunk}
 \begin{Sinput}
-> hist(x=Y,ylab="Frequência",main="Histograma de Y")
+> hist(x=fY,ylab="Frequência",main="Histograma de fY")
 > 
 \end{Sinput}
 \end{Schunk}
-\includegraphics{transformacao-014}
-\begin{Schunk}
-\begin{Sinput}
-> plot(X,Y)
-> 
-\end{Sinput}
-\end{Schunk}
-\includegraphics{transformacao-015}
+\includegraphics{transformacao-010}
+
+
+
+
 
 \end{document}
