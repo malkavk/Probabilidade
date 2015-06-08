@@ -346,16 +346,6 @@ f_Y(y) = F'_Y(y) =  \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\B
 > Ytrans <- function(y,min=a,max=b){
 +   return <- -min/((y^2)*(max-min))
 + }
-> Y <- function(x=1,A=1,B=1){
-+   return <- A*x+b
-+ }
-> pY <- function(vY,min){
-+   ret <- 1:vY
-+   for(i in 1:length(vY)){
-+     ret[i] <- as.numeric(integrate(f=Ytrans,lower=min,upper=vY)[1])
-+   }
-+   return <- ret
-+ }
 > fX <- dunif(X,min=a,max=b)
 > fY <- Ytrans(X)
 > hist(fX,ylab="Frequência",main="Histograma de fX")
