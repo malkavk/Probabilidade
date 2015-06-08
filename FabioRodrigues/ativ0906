@@ -5,7 +5,7 @@ sigma = 2
 mu = 2
 X = rnorm(n=1000,mean=mu,sd=sigma)
 y = (x - mu)/sigma
-Y = (1/(sqrt(2*pi)))*exp(-((X-mu)^2)/(2*(sigma^2)))
+Y = (1/(sqrt(2*pi)))*exp(-(y^2)/2))
 
 # Hist X e Fx, analiticamente
 hist(X, breaks = "FD", probability = TRUE)
