@@ -8,7 +8,7 @@ y1 = (x - mu)/sigma
 Y1 = (1/(sqrt(2*pi)))*exp(-(y^2)/2))
 
 # Hist X e Fx, analiticamente
-hist(X, breaks = "FD", probability = TRUE)
+hist(X, breaks = "FD", probability = TRUE, ylim = c(0, 0.4))
 x=X
 # Representação das densidades 
 # Gaussiana Padrão
