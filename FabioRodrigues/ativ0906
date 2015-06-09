@@ -1,19 +1,30 @@
 # Atividade de Probabilidade e Inferência
 # Geração de gráficos
 set.seed(350)
-sigma = 2
+sigma = 3
 mu = 2
-X = rnorm(n=1000,mean=mu,sd=sigma)
-y = (x - mu)/sigma
-Y = (1/(sqrt(2*pi)))*exp(-(y^2)/2))
+X = rnorm(n=1000,mean=mu,sd=sigma^2)
+y1 = (x - mu)/sigma
+Y1 = (1/(sqrt(2*pi)))*exp(-(y^2)/2))
 
 # Hist X e Fx, analiticamente
 hist(X, breaks = "FD", probability = TRUE)
 x=X
-curve(dnorm(x,mu,sigma), col = 2, add=TRUE)
+# Representação das densidades 
+# Gaussiana Padrão
+curve(dnorm(x), col = 4, add=TRUE)
+# Gaussiana Com parâmetros passados
+curve(dnorm(x,mu,sigma), col = 3, add=TRUE)
+# Gaussiana conforme distribuiçao sugerida
+curve(dnorm(x,mu,sigma^2), col = 2, add=TRUE)
+lines(density(x))
 
 # Hist Y e Fy, analiticamente
-hist(y, breaks = "FD", probability = TRUE)
-x=Y
-# mais coisas a trabalhar por aqui
-points(x, col = 3, add=TRUE, type = "b")
+hist(y1, breaks = "FD", probability = TRUE, ylim = c(0, 0.4))
+x=y1
+# Representação da densidade transformada - Gera algo ligeiramente diferente da densidade de y, mas foi o que deu =P
+curve((1/(sqrt(2*pi)))*exp(-(x^2)/2), add = TRUE, col = 2)
+lines(density(y))
+# Comparaçao com X
+x=X
+curve(dnorm(x,mu,sigma^2), col = 5, add = TRUE)
