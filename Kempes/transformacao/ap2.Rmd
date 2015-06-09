@@ -1,0 +1,237 @@
+---
+title: "Transformações de Variáveis Aleatórias"
+author: "Kempes J."
+date: "8 de junho de 2015"
+output: beamer_presentation
+---
+
+
+
+# Tranformações de Variáveis Aleatórias Contínuas
+
+----
+
+## Definições Iniciais 
+
+$Y = g(X)$
+
+$X = g^{-1}(Y)$
+
+$F_Y(y)  = \mathbb{P}\{Y \leq y\}$
+
+$\mathbb{P}\{g(X) \leq y\} = \mathbb{P}\{X \leq g^{-1}(Y)\}$
+
+$\mathbb{P}\{X \leq g^{-1}(Y)\} = F_X(g^{-1}(Y))$
+
+$f_Y(y) = F'_Y(y) = \frac{d}{dy}F_X(g^{-1}(y)) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)$
+
+$f_Y(y) = F'_Y(y) = \frac{d}{dy}F_X(g^{-1}(y))$
+
+----
+
+## Expressões Finais 
+
+$f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)$ 
+
+$f_Y(y) = -f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)$
+
+$f_Y(y) = \quad\Biggm\lvert f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y)\quad\Biggm\lvert$
+
+----
+
+# Resoluções $X \sim N(\mu,\sigma^2)$
+
+$f_X(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$
+
+----
+
+## $X \sim N(\mu,\sigma^2)$, $Y = \frac{X-\mu}{\sigma}$ com $X \sim N(0,1)$
+
+$Y = g(X) = \frac{X-\mu}{\sigma}$, para $\sigma \neq 0$
+
+$g^{-1}(Y) = X = Y\sigma+\mu$
+
+$\frac{d}{dy}g^{-1}(y) = \frac{d}{dy}(y\sigma+\mu) = \sigma$
+
+$f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(y\sigma+\mu)\sigma$
+
+$f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(y\sigma+\mu-\mu)^2}{2\sigma^2}}\sigma = \quad\Biggm\lvert\frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}\quad\Biggm\lvert$
+
+----
+
+## $Y = \frac{X-\mu}{\sigma}$ (Histogramas)
+
+```{r,echo=FALSE}
+set.seed(236)
+sigma <- 1
+mu <- 0
+X <- rnorm(n=1000,mean=mu,sd=sigma)
+Ytrans <- function(y,mean=mu,sd=sigma){
+  yt <- (1/sqrt(2*pi))*exp(-(y^2)/2)
+  return <- ifelse(y<=mean,yt,-yt)
+} 
+fY <- Ytrans(X)
+fX <- dnorm(X,mean=mu,sd=sigma)
+
+par(mfcol=c(1,2))
+hist(fX,ylab="Frequência",main="Histograma de fX")
+hist(fY,ylab="Frequência",main="Histograma de fY")
+```
+
+----
+
+## $X \sim N(\mu,\sigma^2)$, $Y = \frac{\sigma}{X-\mu}$ com $X \sim N(0,1)$
+
+$Y = g(X) = \frac{\sigma}{X-\mu}$, para $X \neq \mu$
+
+$g^{-1}(Y) = X = \frac{\sigma}{Y}+\mu$
+
+$\frac{d}{dy}g^{-1}(y) = \frac{d}{dy}(\frac{\sigma}{y}+\mu) = -\sigma y^{-2}$
+
+$f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(\frac{\sigma}{y}+\mu)(-\sigma y^{-2})$
+
+$f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(\frac{\sigma}{y}+\mu-\mu)^2}{2\sigma^2}}(-\sigma y^{-2}) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{1}{y})^2}(-\sigma y^{-2})$
+
+$f_Y(y) = \quad\Biggm\lvert -\frac{1}{y^2\sqrt{2\pi}}e^{-\frac{1}{2y^2}}\quad\Biggm\lvert$
+
+----
+
+## $Y = \frac{\sigma}{X-\mu}$ (Histogramas)
+
+```{r,echo=FALSE}
+set.seed(236)
+sigma <- 1
+mu <- 0
+X <- rnorm(n=1000,mean=mu,sd=sigma)
+Ytrans <- function(y,mean=mu,sd=sigma){
+  yt <- -(y^(-2/3))*(1/(3*sqrt(2*pi)))*exp(-(1/2)*y^(2/3))
+  return <- ifelse(y>mean,yt,-yt)
+}
+
+fX <- dnorm(X,mean=mu,sd=sigma)
+
+
+fY <- Ytrans(X)
+
+par(mfcol=c(1,2))
+
+hist(fX,ylab="Frequência",main="Histograma de fX")
+hist(x=fY,ylab="Frequência",main="Histograma de fY")
+```
+
+----
+
+## $X \sim N(\mu,\sigma^2)$, $Y = (\frac{X-\mu}{\sigma})^3$ com $X \sim N(0,1)$
+
+$Y = g(X) = (\frac{X-\mu}{\sigma})^3$ para $\sigma \neq 0$
+
+$g^{-1}(Y) = X = \sigma Y^{\frac{1}{3}}+\mu$
+
+$\frac{d}{dy}g^{-1}(y) = \frac{d}{dy}(\sigma y^{\frac{1}{3}}+\mu) = \frac{1}{3}\sigma y^{-\frac{2}{3}}$
+
+$f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(\sigma y^{\frac{1}{3}}+\mu)(\frac{1}{3}\sigma y^{-\frac{2}{3}})$
+
+$f_Y(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(\sigma y^{\frac{1}{3}}+\mu-\mu)^2}{2\sigma^2}}(\frac{1}{3}\sigma y^{-\frac{2}{3}}) = \quad\Biggm\lvert y^{-\frac{2}{3}}\frac{1}{3\sqrt{2\pi}}e^{-\frac{1}{2}y^{\frac{2}{3}}}\quad\Biggm\lvert$
+
+----
+
+## $Y = (\frac{X-\mu}{\sigma})^3$ (Histogramas)
+
+```{r, echo=FALSE}
+sigma <- 1
+mu <- 0
+X <- rnorm(n=1000,mean=mu,sd=sigma)
+Ytrans <- function(y,mean=mu,sd=sigma){
+  yt <- -(y^(-2/3))*(1/(3*sqrt(2*pi)))*exp(-(1/2)*y^(2/3))
+  return <- ifelse(y>mean,yt,-yt)
+}
+
+fX <- dnorm(X,mean=mu,sd=sigma)
+
+
+fY <- Ytrans(X)
+
+par(mfcol=c(1,2))
+
+hist(fX,ylab="Frequência",main="Histograma de fX")
+hist(x=fY,ylab="Frequência",main="Histograma de fY")
+```
+
+----
+
+# $X \sim \varepsilon(1)$, transformar em $Y = X^p$, para $p \neq 0$
+
+$f_X(x) = \lambda e^{-\lambda x}$
+
+$Y = g(X) = X^p$
+  
+$g^{-1}(Y) = X = Y^\frac{1}{p}$
+  
+$\frac{d}{dy}g^{-1}(y) = \frac{d}{dy}y^\frac{1}{p} = \frac{1}{p}y^\frac{1-p}{p}$
+
+$f_Y(y) = -f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = -f_X(y^\frac{1}{p})\frac{1}{p}y^\frac{1-p}{p}$
+
+$f_Y(y) = -(\lambda e^{-\lambda y^\frac{1}{p}})\frac{1}{p}y^\frac{1-p}{p}$
+
+----
+
+## $Y = X^p$ (Histogramas)
+
+```{r,echo=FALSE}
+set.seed(236)
+lambda <- 1
+p <- -3
+X <- rexp(n=1000,rate=lambda)
+Ytrans <- function(y,rate=lambda,ep=p){
+  return <- -rate*exp(-rate*y^(1/ep))*(1/ep)*y^((1-p)/p)
+}
+
+fX <- dexp(X,rate=lambda)
+
+fY <- Ytrans(X)
+
+par(mfcol=c(1,2))
+
+hist(fX,ylab="Frequência",main="Histograma de fX")
+hist(x=fY,ylab="Frequência",main="Histograma de fY")
+```
+
+----
+
+# $X \sim U(0,1)$, transformar em $Y = aX+b$
+
+$f_X(x) = \frac{1}{b-a}\mathbb{I}_{[a,b]}(x)$
+  
+$Y = g(X) = aX+b$
+  
+$g^{-1}(Y) = X = \frac{a}{Y}-b$
+  
+$\frac{d}{dy}g^{-1}(y) = \frac{d}{dy}(\frac{a}{y}-b) = -ay^{-2}$
+  
+$f_Y(y) = f_X(g^{-1}(y))\frac{d}{dy}g^{-1}(y) = f_X(\frac{a}{y}-b)(-ay^{-2})$
+  
+$f_Y(y) = \frac{1}{b-a}(-ay^{-2}) = -\frac{a}{y^2(b-a)}$
+  
+----  
+  
+## $Y = aX+b$(Histogramas)
+
+```{r,echo=FALSE}
+set.seed(236)
+a <- 1
+b <- 3
+X <- runif(n=1000,min=a,max=b)
+Ytrans <- function(y,min=a,max=b){
+  return <- -min/((y^2)*(max-min))
+}
+
+
+fX <- dunif(X,min=a,max=b)
+fY <- Ytrans(X)
+
+par(mfcol=c(1,2))
+
+
+hist(fX,ylab="Frequência",main="Histograma de fX")
+hist(x=fY,ylab="Frequência",main="Histograma de fY")
+```
