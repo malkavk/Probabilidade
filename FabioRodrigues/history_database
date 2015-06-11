@@ -1,0 +1,14 @@
+1433851121726:curve(
+1433851121728:exp(-1/(2*x^2)) / (sqrt(2*pi)*x^2),
+1433851121729:from=-5, to=5, n=500
+1433854501961:u <- runif(10000)
+1433854513367:hist(u, breaks="FD")
+1433854528521:hist(u, breaks="FD", probability=TRUE)
+1433854761428:hist(-log(1-u), breaks="FD", probability=TRUE)
+1433854843644:hist(qexp(u), breaks="FD", probability=TRUE)
+1433854864991:hist(qnorm(u), breaks="FD", probability=TRUE)
+1433854876486:hist(qcauchy(u), breaks="FD", probability=TRUE)
+1433854918204:hist(qgamma(u, shape = 2, rate = 1), breaks="FD", probability=TRUE)
+1433854942649:hist(qbeta(u, p = 2, q = 3), breaks="FD", probability=TRUE)
+1433854955864:hist(qbeta(u, shape1 = 2, shape2 = 3), breaks="FD", probability=TRUE)
+1433855092301:hist(qpois(u, lambda = 3), breaks="FD", probability=TRUE)
