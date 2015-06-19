@@ -1,0 +1,54 @@
+---
+title: "Lei dos Grandes Números e Teorema Central do Limite"
+author: "Kempes J."
+date: "18 de junho de 2015"
+output: ioslides_presentation
+runtime: shiny
+---
+
+# Testes
+
+## Histograma
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("amostras", label = "Quantidade de Amostras:",
+              min = 1, max = 10000, value = 1, step = 1),
+  sliderInput("xs", label = "Quantidade de X:",
+              min = 0, max= 10, value = 1, step=1),
+  radioButtons("dist", "Selecione:",
+             c("Uniforme" = 1,
+               "Binomial" = 2,
+               "Cauchy" = 3,
+               "Exponencial" = 4))
+)
+
+renderPlot({
+  n <- as.numeric(input$amostras)*1000
+  xs <- as.numeric(input$xs)
+
+  mu <- switch(input$dist, 
+        "1" = 1/2,
+        "2" = n*0.5,
+        "3" = Inf,
+        "4" = 1/1)
+  sigma <- switch(input$dist, 
+        "1" = 1/12,
+        "2" = n*0.5*0.5,
+        "3" = Inf,
+        "4" = 1/1^2)
+  
+  x <- 0
+  
+  for(i in 1:xs){
+    d <- switch(input$dist, 
+        "1" = runif(n),
+        "2" = rbinom(n,xs,0.5),
+        "3" = rcauchy(n),
+        "4" = rexp(n))
+    x <- x + d
+  }
+  y <- (x-(n*mu))/sqrt(n*sigma)
+  hist(y, breaks="FD", probability=TRUE)
+})
+```
