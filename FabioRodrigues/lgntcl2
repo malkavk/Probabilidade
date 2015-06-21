@@ -1,21 +1,88 @@
 ---
 title: "Lei dos Grandes Números e Teorema Central do Limite"
-author: "Kempes J."
-date: "18 de junho de 2015"
+author: "Turma de Probabilidade e Inferência 2015.1"
+date: "23 de junho de 2015"
 output: ioslides_presentation
 runtime: shiny
 ---
 
-# Testes
+## Agenda
 
-## Histograma
+- Convergência em Variáveis Aleatórias;
+- Lei dos Grandes Números;
+- Teorema Central do Limite;
+- Conclusões;
+- Referências.
+
+## Convergência em Variáveis Aleatórias
+
+Visa discutir quais métricas podem ser utilizadas para medir a distância entre duas variáveis aleatórias.
+Principais meios (modos) para se medir essa distância:
+
+- Convergência em Probabibilidade (...);
+- Convergência Quase Certa (...);
+- Convergência em Distribuição (...).
+
+Resultados mais importantes dos estudos em Convergência de V.A.: Lei dos Grandes números e Teorema Central do Limite.
+
+
+## Relação de Convergências x Teorias{.flexbox .vcenter}
+
+Tipo de Convergência    Resultado Teórico
+-------                 ------ 
+Em probabilidade        Lei fraca dos Grandes Números
+Quase Certa             Lei forte dos Grandes Números
+Em Distribuição         Teorema do Limite Central
+
+Tabela: Relação Convergências e Resultados.
+
+## Lei dos Grandes Números
+
+- Converge em Probabilidade para a Lei fraca dos Grandes números e quase certa para a Lei forte dos grandes números;
+- À medida que um certo número de repetições de experimentos crescer, a frequência relativa de sucesso está próximo a um ponto fixo determinado pelos limites em que há alta probabilidade de ocorrer (fraca) ou há uma probabilidade nula de não ocorrer (forte).
+
+## Histograma LGN
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("amostraslgn", label = "Quantidade de Amostras:",
+              min = 1, max = 10000, value = 1, step = 1),
+  radioButtons("distlgn", "Selecione:",
+             c("Uniforme" = 1,
+               "Poisson" = 2,
+               "Cauchy" = 3,
+               "Exponencial" = 4))
+)
+
+renderPlot({
+  nlgn <- as.numeric(input$amostraslgn)*1000
+  xlgn <- switch(input$distlgn, 
+        "1" = runif(nlgn),
+        "2" = rpois(nlgn, 1),
+        "3" = rcauchy(nlgn),
+        "4" = rexp(nlgn))
+  slgn <- cumsum(xlgn)
+  dlgn <- 1:nlgn
+  plot(dlgn, slgn/dlgn, pch ='.')
+  abline(h=mean(slgn/dlgn), col = "red")
+})
+```
+
+
+## Teorema Central do Limite
+
+- Converge em Distribuição para uma aproximação da Distribuição Normal dado a soma de variáveis aleatórias quaisquer, independentes e identicamente distribuídas, para um número de amostras suficientemente grande;
+- Não aplicável para casos em que a Esperança e Variância sejam infinitas.
+(...)
+
+## Histograma TCL
 
 ```{r, echo=FALSE}
 inputPanel(
   sliderInput("amostras", label = "Quantidade de Amostras:",
               min = 1, max = 10000, value = 1, step = 1),
   sliderInput("xs", label = "Quantidade de X:",
-              min = 0, max= 10, value = 1, step=1),
+              min = 1, max= 20, value = 1, step=1),
   radioButtons("dist", "Selecione:",
              c("Uniforme" = 1,
                "Binomial" = 2,
@@ -35,7 +102,7 @@ renderPlot({
   sigma <- switch(input$dist, 
         "1" = 1/12,
         "2" = n*0.5*0.5,
-        "3" = Inf,
+        "3" = NA,
         "4" = 1/1^2)
   
   x <- 0
@@ -48,7 +115,17 @@ renderPlot({
         "4" = rexp(n))
     x <- x + d
   }
-  y <- (x-(n*mu))/sqrt(n*sigma)
+  y <- (x-(xs*mu))/sqrt(xs*sigma)
   hist(y, breaks="FD", probability=TRUE)
 })
 ```
+
+## Conclusões
+
+(...)
+
+## Referências
+
+- MAGALHÃES, M. (2011) "Probabilidade e Variáveis Aleatórias"
+- MEYER, Paul.  (2013) "Probabilidade: Aplicações à Estatística"
+- TABOGA, M. (2010) "Lectures on probability and statistics", http://www.statlect.com.
