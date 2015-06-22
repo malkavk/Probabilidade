@@ -71,6 +71,7 @@ $\frac{S_n}{n}-E(\frac{S_n}{n}) \xrightarrow{\mathbb{P}r}0$
 
 [@dekking]
 
+http://vis.supstat.com/2013/04/central-limit-theorem/
 
 
 ## Exemplo Interativo 
@@ -135,6 +136,7 @@ $\dfrac{S_n-n\mu}{{\sqrt{n\sigma^2}}} \xrightarrow{\mathbb{D}} N(0,1)$
 [@magal]
 
 https://www.youtube.com/watch?v=epq-dpMJIxs
+
 
 ## Exemplo Interativo
 
