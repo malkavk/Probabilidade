@@ -1,0 +1,183 @@
+---
+title: "Lei dos Grandes Números e Teorema Central do Limite"
+date: "23 de junho de 2015"
+output: ioslides_presentation
+runtime: shiny
+---
+
+---
+references:
+- id: jeffrey
+  title: Illustrating the Law of Large Numbers (And Confidence Intervals)
+  author:
+  - family: Blume
+    given: Jeffrey D.
+  - family: Royal
+    given: Richard M.
+  container-title: The American Statistical Association
+  volume: 57
+  number: 1
+  publisher: Taylor & Francis, Ltd. e American Statistical Association
+  page: 51-57
+  type: article-journal
+  issued:
+    year: 2003
+    month: 2
+- id: dekking
+  title: A Modern Introduction to Probability and Statiscs: Understanding Why and How
+  author:
+  - family: Dekking
+    given: F. M.
+  - family: Kraaikamp
+    given: C.
+  - family: Meester
+    given: L.E.
+  - family: Lopuhaä
+    given: H. P.
+  container-title: Delft Institute of Applied Mathematics
+  publisher:  Delft University of Technology
+  type: book
+  issued:
+    year: 2005
+  ISBN-10: 978-1-85233-896-1 
+  
+- id: magal
+  title: Probabilidade e Variáveis Aleatórias
+  author:
+  - family: Magalhães
+    given: Marcos Nascimento
+  container-title: EdUSP
+  edition: 3
+  publisher: EdUSP
+  type: book
+  issued:
+    year: 2011
+
+---
+
+
+
+# Lei dos Grandes Números
+
+## Definição
+
+
+Sejam $X_1, X_2, ...$variáveis aleatórias com esperanças finitas e seja $S_n = X_1+X_2+...+X_n$. A sequência ${X_n:n\geq1}$ satisfaz a *Lei dos Grandes Números* se: 
+
+---------------------------------------------
+$\frac{S_n}{n}-E(\frac{S_n}{n}) \xrightarrow{\mathbb{P}r}0$
+---------------------------------------------
+
+
+[@dekking]
+
+
+
+## Exemplo Interativo 
+
+```{r, echo=FALSE}
+
+set.seed(9486)
+
+inputPanel(
+  sliderInput("amostras", label = "Quantidade de Amostras (10^n):",
+              min = 1, max = 7, value = 1, step = 1),
+  
+  sliderInput("media", label = "Média Definida:",
+              min = 0, max= 1, value = 0.5, step=0.01),
+  
+  radioButtons("dist", "Selecione:",
+             c("Unif." = 1,
+               "Binom." = 2,
+               "Expon." = 3,
+               "Pois."=4))
+)
+
+renderPlot({
+  n <- 10^as.numeric(input$amostras)
+  mu <- as.numeric(input$media)
+  sigma <- switch(input$dist, 
+        "1" = 1/12,
+        "2" = n*0.5*0.5,
+        "3" = 1/1^2,
+        "4" = rep(mu,n))
+  
+  x <- 0
+  
+  
+  x <- switch(input$dist, 
+        "1" = runif(n,0,2*mu),
+        "2" = rbinom(n,1,mu),
+        "3" = rexp(n,rate=rep(1/mu,n)),
+        "4" = rpois(n,lambda=rep(mu,n)))
+    
+  s <- cumsum(x)
+  d <- 1:n
+  ch <- 'o'
+  if(n>10)
+    ch <- '.'
+  plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d,mu)),xlab='X',ylab='Frequencia')
+  abline(h=mean(x),col=3)
+  abline(h=mu,col=2)
+})
+```
+
+# Teorema Central do Limite
+
+## Definição
+
+Sejam ${X_n:n\geq1}$ variáveis aleatórias independentes, identicamente distribuidas e com esperança $\mu$ e variância $\sigma^2$, com $0<\sigma^2<\infty$. Então, para $S_n=X_1+X_2+...+X_n$, temos, 
+
+---------------------------------------------
+$\dfrac{S_n-n\mu}{{\sqrt{n\sigma^2}}} \xrightarrow{\mathbb{D}} N(0,1)$
+---------------------------------------------
+
+[@magal]
+
+https://www.youtube.com/watch?v=epq-dpMJIxs
+
+## Exemplo Interativo
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("amostras2", label = "Quantidade de Amostras:",
+              min = 1, max = 8, value = 1, step = 1),
+  sliderInput("xs", label = "Quantidade de v.a.:",
+              min = 1, max= 20, value = 1, step=1),
+  radioButtons("dist2", "Selecione:",
+             c("Uniforme" = 1,
+               "Binomial" = 2,
+               "Beta" = 3,
+               "Exponencial" = 4))
+)
+
+renderPlot({
+  n <- 10^as.numeric(input$amostras2)
+  xs <- as.numeric(input$xs)
+
+  mu <- switch(input$dist, 
+        "1" = 1/2,
+        "2" = n*0.5,
+        "3" = 3/4,
+        "4" = 1/1)
+  sigma <- switch(input$dist2, 
+        "1" = 1/12,
+        "2" = n*0.5*0.5,
+        "3" = (3*1)/(3+1+1)*(3+1)^2,
+        "4" = 1/1^2)
+  
+  x <- 0
+  
+  for(i in 1:xs){
+    d <- switch(input$dist2, 
+        "1" = runif(n),
+        "2" = rbinom(n,xs,0.5),
+        "3" = rbeta(n,3,1),
+        "4" = rexp(n))
+    x <- x + d
+  }
+  y <- (x-(xs*mu))/sqrt(xs*sigma)
+  hist(y, breaks="FD", probability=TRUE)
+  lines(density(y),col="BLUE")
+})
+```
