@@ -1,0 +1,112 @@
+---
+title: "Ilustrações à Lei dos Grandes Números e ao Teorema Central do Limite"
+author: "Turma de Probabilidade e Inferência 2015.1"
+date: "23 de junho de 2015"
+output: ioslides_presentation
+runtime: shiny
+---
+
+## Agenda
+
+- Lei dos Grandes Números;
+- Teorema Central do Limite;
+- Conclusões;
+- Referências.
+
+## Lei dos Grandes Números
+
+- Converge em Probabilidade para a Lei fraca dos Grandes números e quase certa para a Lei forte dos grandes números;
+- À medida que um certo número de repetições de experimentos crescer, a frequência relativa de sucesso está próximo a um ponto fixo determinado pelos limites em que há alta probabilidade de ocorrer (fraca) ou há uma probabilidade nula de não ocorrer (forte).
+
+## Ilustração - Lei dos Grandes Números
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("amostraslgn", label = "Quantidade de Amostras:",
+              min = 1, max = 10000, value = 1, step = 1),
+  radioButtons("distlgn", "Selecione:",
+             c("Uniforme" = 1,
+               "Poisson" = 2,
+               "Cauchy" = 3,
+               "Exponencial" = 4))
+)
+
+renderPlot({
+  nlgn <- as.numeric(input$amostraslgn)*1000
+  xlgn <- switch(input$distlgn, 
+        "1" = runif(nlgn),
+        "2" = rpois(nlgn, 1),
+        "3" = rcauchy(nlgn),
+        "4" = rexp(nlgn))
+  slgn <- cumsum(xlgn)
+  dlgn <- 1:nlgn
+  plot(dlgn, slgn/dlgn, pch ='.')
+  abline(h=mean(slgn/dlgn), col = "red")
+})
+```
+
+
+## Teorema Central do Limite
+
+- Uma determinada população Comporta-se para uma aproximação da Distribuição Normal dado a soma de variáveis aleatórias quaisquer para um número de amostras suficientemente grande;
+- Não aplicável para casos em que a Esperança e Variância sejam infinitas.
+(...)
+
+
+https://www.youtube.com/watch?v=epq-dpMJIxs
+
+
+## Histograma TCL
+
+```{r, echo=FALSE}
+inputPanel(
+  sliderInput("amostras", label = "Quantidade de Amostras:",
+              min = 1, max = 10000, value = 1, step = 1),
+  sliderInput("xs", label = "Quantidade de X:",
+              min = 1, max= 20, value = 1, step=1),
+  radioButtons("dist", "Selecione:",
+             c("Uniforme" = 1,
+               "Binomial" = 2,
+               "Beta" = 3,
+               "Exponencial" = 4))
+)
+
+renderPlot({
+  n <- as.numeric(input$amostras)*1000
+  xs <- as.numeric(input$xs)
+
+  mu <- switch(input$dist, 
+        "1" = 1/2,
+        "2" = n*0.5,
+        "3" = 3/4,
+        "4" = 1/1)
+  sigma <- switch(input$dist, 
+        "1" = 1/12,
+        "2" = n*0.5*0.5,
+        "3" = (3*1)/(3+1+1)*(3+1)^2,
+        "4" = 1/1^2)
+  
+  x <- 0
+  
+  for(i in 1:xs){
+    d <- switch(input$dist, 
+        "1" = runif(n),
+        "2" = rbinom(n,xs,0.5),
+        "3" = rbeta(n,3,1),
+        "4" = rexp(n))
+    x <- x + d
+  }
+  y <- (x-(xs*mu))/sqrt(xs*sigma)
+  hist(y, breaks="FD", probability=TRUE)
+})
+```
+
+## Conclusões
+
+(...)
+
+## Referências
+
+- MAGALHÃES, M. (2011) "Probabilidade e Variáveis Aleatórias"
+- MEYER, Paul.  (2013) "Probabilidade: Aplicações à Estatística"
+- TABOGA, M. (2010) "Lectures on probability and statistics", http://www.statlect.com.
