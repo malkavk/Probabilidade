@@ -3,59 +3,8 @@ title: "Lei dos Grandes Números e Teorema Central do Limite"
 date: "23 de junho de 2015"
 output: ioslides_presentation
 runtime: shiny
+bibliography: lgn_tcl.bib
 ---
-
----
-references:
-- id: jeffrey
-  title: Illustrating the Law of Large Numbers (And Confidence Intervals)
-  author:
-  - family: Blume
-    given: Jeffrey D.
-  - family: Royal
-    given: Richard M.
-  container-title: The American Statistical Association
-  volume: 57
-  number: 1
-  publisher: Taylor & Francis, Ltd. e American Statistical Association
-  page: 51-57
-  type: article-journal
-  issued:
-    year: 2003
-    month: 2
-- id: dekking
-  title: A Modern Introduction to Probability and Statiscs: Understanding Why and How
-  author:
-  - family: Dekking
-    given: F. M.
-  - family: Kraaikamp
-    given: C.
-  - family: Meester
-    given: L.E.
-  - family: Lopuhaä
-    given: H. P.
-  container-title: Delft Institute of Applied Mathematics
-  publisher:  Delft University of Technology
-  type: book
-  issued:
-    year: 2005
-  ISBN-10: 978-1-85233-896-1 
-  
-- id: magal
-  title: Probabilidade e Variáveis Aleatórias
-  author:
-  - family: Magalhães
-    given: Marcos Nascimento
-  container-title: EdUSP
-  edition: 3
-  publisher: EdUSP
-  type: book
-  issued:
-    year: 2011
-
----
-
-
 
 # Lei dos Grandes Números
 
@@ -69,7 +18,7 @@ $\frac{S_n}{n}-E(\frac{S_n}{n}) \xrightarrow{\mathbb{P}r}0$
 ---------------------------------------------
 
 
-[@dekking]
+[@Dekking2005]
 
 http://vis.supstat.com/2013/04/central-limit-theorem/
 
@@ -133,7 +82,7 @@ Sejam ${X_n:n\geq1}$ variáveis aleatórias independentes, identicamente distrib
 $\dfrac{S_n-n\mu}{{\sqrt{n\sigma^2}}} \xrightarrow{\mathbb{D}} N(0,1)$
 ---------------------------------------------
 
-[@magal]
+[@Magalhaes2011]
 
 https://www.youtube.com/watch?v=epq-dpMJIxs
 
