@@ -40,7 +40,8 @@ inputPanel(
              c("Unif." = 1,
                "Binom." = 2,
                "Expon." = 3,
-               "Pois."=4))
+               "Pois."=4,
+               "Cauchy" =5))
 )
 
 renderPlot({
@@ -59,7 +60,9 @@ renderPlot({
         "1" = runif(n,0,2*mu),
         "2" = rbinom(n,1,mu),
         "3" = rexp(n,rate=rep(1/mu,n)),
-        "4" = rpois(n,lambda=rep(mu,n)))
+        "4" = rpois(n,lambda=rep(mu,n)),
+        "5" = rcauchy(n))
+    
     
   s <- cumsum(x)
   d <- 1:n
@@ -96,10 +99,10 @@ inputPanel(
   sliderInput("xs", label = "Quantidade de v.a.:",
               min = 1, max= 20, value = 1, step=1),
   radioButtons("dist2", "Selecione:",
-             c("Uniforme" = 1,
-               "Binomial" = 2,
+             c("Unif." = 1,
+               "Binom." = 2,
                "Beta" = 3,
-               "Exponencial" = 4))
+               "Exp." = 4))
 )
 
 renderPlot({
@@ -128,7 +131,7 @@ renderPlot({
     x <- x + d
   }
   y <- (x-(xs*mu))/sqrt(xs*sigma)
-  hist(y, breaks="FD", probability=TRUE)
+  hist(y, breaks="FD",probability=TRUE)
   lines(density(y),col="BLUE")
 })
 ```
