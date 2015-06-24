@@ -5,6 +5,20 @@ This Markdown/Shiny presentation shows the Law of Large Numbers (LLN) and Centra
 
 "aula-LGN-TCL.Rmd" is a RStudio generated file, having Markdown/Shiny and R code.
 
+### Requirements
+
+RStudio 0.99.441 or higher.
+
+Following libraries are required in their newest version:
+
+- knitr
+- yaml
+- htmltools
+- caTools
+- bitops
+- rmarkdown
+- shiny
+
 ### Execution
 
 1. Open "aula-LGN-TCL.Rmd" file on RStudio
@@ -28,6 +42,20 @@ Those errors occurs for unknown reasons and happens randonly.
 Esta apresentação Markdown/Shiny apresenta a Lei dos Grandes Números (LGN) e o Teorema Central do Limite (TCL), proporcionando uma forma interativa de ilustrar estas importantes bases teóricas para probabilidade.
 
 O arquivo "aula-LGN-TCL.Rmd" foi gerado no RStudio, tendo código Markdown/Shiny e R.
+
+### Requisitos
+
+RStudio 0.99.441 ou superior.
+
+As seguintes bibliotecas são requeridas em suas versões mais novas:
+
+- knitr
+- yaml
+- htmltools
+- caTools
+- bitops
+- rmarkdown
+- shiny
 
 ## Execução
 
