@@ -24,7 +24,7 @@ The page 4 is composed for:
 
 2. A slider control labeled "Média Definida:"
 
-  This control sets the user defined mean to be used on a selected function. On Uniform case, samples are generated between 0 and 2*<this slider value>.
+  This control sets the user defined mean to be used on a selected function. On Uniform case, samples are generated between 0 and 2*\<this slider value\>.
 
 3. A radio button group labeled "Selecione:"
 
@@ -98,7 +98,7 @@ A página 4 é composta por:
 
 2. Um controle deslizante identicado por "Média Definida:"
 
-  Este controle define a média a ser usada na função escolhida. No caso da Uniforme, as amostras são geradas entre 0 e 2*<o valor deste controle>.
+  Este controle define a média a ser usada na função escolhida. No caso da Uniforme, as amostras são geradas entre 0 e 2*\<o valor deste controle\>.
 
 3. Um grupo de "radio button" identificados por "Selecione:"
 
