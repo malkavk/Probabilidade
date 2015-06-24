@@ -92,11 +92,11 @@ A página 3 mostra a definição da LGN e a 6, a dfinição da TCL; com links pa
 
 A página 4 é composta por:
 
-1. Um controle deslisante identificado por "Quantidade de Amostras (10^n):"
+1. Um controle deslizante identificado por "Quantidade de Amostras (10^n):"
 
   Este controle define o número de observações a serem usadas no gráfico (indo de 10^1 a 10^8 observações). 
 
-2. Um controle deslisante identicado por "Média Definida:"
+2. Um controle deslizante identicado por "Média Definida:"
 
   Este controle define a média a ser usada na função escolhida. No caso da Uniforme, as amostras são geradas entre 0 e 2*<o valor deste controle>.
 
@@ -115,11 +115,11 @@ A página 4 é composta por:
 
 A página 7 é composta de:
 
-1. Um controle deslisante identificado por "Quantidade de Amostras (10^n):"
+1. Um controle deslizante identificado por "Quantidade de Amostras (10^n):"
 
   Este controle define o número de observações a ser usadas na construção do gráfico (indo de 10^1 a 10^8 observações).
   
-2. Um controle deslisante identificado por "Quantidade de v.a.:"
+2. Um controle deslizante identificado por "Quantidade de v.a.:"
 
   ESte controle define número de variáveis aleatórias para caulcular Sn.
 
