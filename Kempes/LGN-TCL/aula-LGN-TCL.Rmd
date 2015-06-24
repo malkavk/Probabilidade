@@ -27,7 +27,7 @@ http://vis.supstat.com/2013/04/law-of-large-numbers/
 
 ```{r, echo=FALSE}
 inputPanel(
-  sliderInput("amostras", label = "Quantidade de Amostras (10^n):",
+  sliderInput("sample", label = "Quantidade de Amostras (10^n):",
               min = 1, max = 8, value = 1, step = 1),
   
   sliderInput("media", label = "Média Definida:",
@@ -43,7 +43,7 @@ inputPanel(
 
 renderPlot({
   set.seed(9486)
-  n <- 10^as.numeric(input$amostras)
+  n <- 10^as.numeric(input$sample)
   mu <- as.numeric(input$media)
   
   x <- switch(input$dist, 
@@ -59,7 +59,7 @@ renderPlot({
   ch <- 'o'
   if(n>10)
     ch <- '.'
-  plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d)),xlab='X',ylab='Frequencia')
+  plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d)),xlab='X',ylab='Frequency')
   abline(h=mean(x),col=3)
   abline(h=mu,col=2)
 })
@@ -84,7 +84,7 @@ https://www.youtube.com/watch?v=epq-dpMJIxs
 
 ```{r, echo=FALSE}
 inputPanel(
-  sliderInput("amostras2", label = "Quantidade de Amostras (10^n):",
+  sliderInput("sample2", label = "Quantidade de Amostras (10^n):",
               min = 1, max = 8, value = 1, step = 1),
   sliderInput("xs", label = "Quantidade de v.a.:",
               min = 1, max= 30, value = 1, step=1),
@@ -97,7 +97,7 @@ inputPanel(
 
 renderPlot({
   #set.seed(9486)
-  n <- 10^as.numeric(input$amostras2)
+  n <- 10^as.numeric(input$sample2)
   xs <- as.numeric(input$xs)
   unif_a <- 0 
   unif_b <- 1
