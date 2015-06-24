@@ -26,12 +26,9 @@ http://vis.supstat.com/2013/04/law-of-large-numbers/
 ## Exemplo Interativo 
 
 ```{r, echo=FALSE}
-
-set.seed(9486)
-
 inputPanel(
   sliderInput("amostras", label = "Quantidade de Amostras (10^n):",
-              min = 1, max = 7, value = 1, step = 1),
+              min = 1, max = 8, value = 1, step = 1),
   
   sliderInput("media", label = "Média Definida:",
               min = 0, max= 1, value = 0.5, step=0.01),
@@ -45,22 +42,15 @@ inputPanel(
 )
 
 renderPlot({
+  set.seed(9486)
   n <- 10^as.numeric(input$amostras)
   mu <- as.numeric(input$media)
-  sigma <- switch(input$dist, 
-        "1" = 1/12,
-        "2" = n*0.5*0.5,
-        "3" = 1/1^2,
-        "4" = rep(mu,n))
-  
-  x <- 0
-  
   
   x <- switch(input$dist, 
         "1" = runif(n,0,2*mu),
         "2" = rbinom(n,1,mu),
-        "3" = rexp(n,rate=rep(1/mu,n)),
-        "4" = rpois(n,lambda=rep(mu,n)),
+        "3" = rexp(n,rate=1/mu),
+        "4" = rpois(n,lambda=mu),
         "5" = rcauchy(n))
     
     
@@ -69,7 +59,7 @@ renderPlot({
   ch <- 'o'
   if(n>10)
     ch <- '.'
-  plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d,mu)),xlab='X',ylab='Frequencia')
+  plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d)),xlab='X',ylab='Frequencia')
   abline(h=mean(x),col=3)
   abline(h=mu,col=2)
 })
@@ -94,10 +84,10 @@ https://www.youtube.com/watch?v=epq-dpMJIxs
 
 ```{r, echo=FALSE}
 inputPanel(
-  sliderInput("amostras2", label = "Quantidade de Amostras:",
+  sliderInput("amostras2", label = "Quantidade de Amostras (10^n):",
               min = 1, max = 8, value = 1, step = 1),
   sliderInput("xs", label = "Quantidade de v.a.:",
-              min = 1, max= 20, value = 1, step=1),
+              min = 1, max= 30, value = 1, step=1),
   radioButtons("dist2", "Selecione:",
              c("Unif." = 1,
                "Binom." = 2,
@@ -106,31 +96,39 @@ inputPanel(
 )
 
 renderPlot({
+  #set.seed(9486)
   n <- 10^as.numeric(input$amostras2)
   xs <- as.numeric(input$xs)
-
+  unif_a <- 0 
+  unif_b <- 1
+  beta_a <- 3
+  beta_b <- 1
+  bino_p <- 0.5
+  bino_size <- 1
+  lambda <- 1
+  
   mu <- switch(input$dist, 
-        "1" = 1/2,
-        "2" = n*0.5,
-        "3" = 3/4,
-        "4" = 1/1)
+        "1" = (unif_a+unif_b)/2,
+        "2" = n*bino_p,
+        "3" = beta_a/(beta_a+beta_b),
+        "4" = 1/lambda)
   sigma <- switch(input$dist2, 
-        "1" = 1/12,
-        "2" = n*0.5*0.5,
-        "3" = (3*1)/(3+1+1)*(3+1)^2,
-        "4" = 1/1^2)
+        "1" = ((unif_b-unif_a)^2)/12,
+        "2" = n*p*(1-p),
+        "3" = (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2,
+        "4" = 1/lambda^2)
   
   x <- 0
   
   for(i in 1:xs){
     d <- switch(input$dist2, 
-        "1" = runif(n),
-        "2" = rbinom(n,xs,0.5),
-        "3" = rbeta(n,3,1),
-        "4" = rexp(n))
+        "1" = runif(n,unif_a,unif_b),
+        "2" = rbinom(n,bino_size,mu),
+        "3" = rbeta(n,beta_a,beta_b),
+        "4" = rexp(n,rate=1/mu))
     x <- x + d
   }
-  y <- (x-(xs*mu))/sqrt(xs*sigma)
+  y <- (x-(xs*mu))/sqrt(xs*sigma^2)
   hist(y, breaks="FD",probability=TRUE)
   lines(density(y),col="BLUE")
 })
