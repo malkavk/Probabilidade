@@ -66,7 +66,7 @@ As seguintes bibliotecas são requeridas em suas versões mais novas:
 
 ## Possíveis Erros
 
-Depois de pressionar o botão "Run Presentation", algumas vezes a nova janela do RStudio pode estar em branco ou apresentando alguns probelams gráficos, nestes casos, apenas ignore e pressione o botão "Open in Browser".
+Depois de pressionar o botão "Run Presentation", algumas vezes a nova janela do RStudio pode estar em branco ou apresentando alguns problemas gráficos, nestes casos, apenas ignore e pressione o botão "Open in Browser".
 
 Depois de pressionar o botão "Run Presentation", algumas vezes aparecem os controles interativos, mas não os gráficos (aparecendo algum texto em vermelho), nestes casos, feche a janela e pressione novamente o botão "Run Presentaion".
 
