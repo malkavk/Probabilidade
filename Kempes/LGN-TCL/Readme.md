@@ -1,7 +1,7 @@
 (en)
 # Law of Large Numbers (LLN) and Central Limit Theorem (CLT)
 
-This Markdown/Shiny presentation shows the Law of Large Numbers (LLN) and Central Limit Theorem (CLT), providing a interactive way to show these important theoretical bases for probability.
+This interective presentation contains applications of the Law of Large Numbers (LLN) and Central Limit Theorem (CLT) on some distributions, by use of tools R and RShinny.
 
 "aula-LGN-TCL.Rmd" is a RStudio generated file, having Markdown/Shiny and R code.
 
@@ -39,7 +39,7 @@ Those errors occurs for unknown reasons and happens randonly.
 
 # Lei dos Grandes Números (LGN) e Teorema Central do Limite(TCL)
 
-Esta apresentação Markdown/Shiny apresenta a Lei dos Grandes Números (LGN) e o Teorema Central do Limite (TCL), proporcionando uma forma interativa de ilustrar estas importantes bases teóricas para probabilidade.
+Esta apresentação interativa contém aplicações da Lei dos Grandes Números (LGN) e do Teorema Central do Limite (TCL) à algumas distribuições, mediante uso das ferramentas R e RShinny.
 
 O arquivo "aula-LGN-TCL.Rmd" foi gerado no RStudio, tendo código Markdown/Shiny e R.
 
