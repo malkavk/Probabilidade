@@ -8,6 +8,8 @@ bibliography: lgn_tcl.bib
 
 # Lei dos Grandes Números
 
+
+
 ## Definição
 
 
@@ -27,12 +29,13 @@ http://vis.supstat.com/2013/04/law-of-large-numbers/
 
 ```{r, echo=FALSE}
 inputPanel(
-  sliderInput("sample", label = "Quantidade de Amostras (10^n):",
-              min = 1, max = 8, value = 1, step = 1),
+  # Number of observations to be used on chart (from 10^1 to 10^8 observations). 
+  sliderInput("sample", label = "Quantidade de Amostras (10^n):", min = 1, max = 8, value = 1, step = 1),
   
-  sliderInput("media", label = "Média Definida:",
-              min = 0, max= 1, value = 0.5, step=0.01),
+  # User defined mean to be used on a selected function. On Uniform case, samples are generated between 0 and 2*<this slider value>.
+  sliderInput("media", label = "Média Definida:", min = 0, max= 1, value = 0.5, step=0.01),
   
+  # Distribution to be used to build the chart. 
   radioButtons("dist", "Selecione:",
              c("Unif." = 1,
                "Binom." = 2,
@@ -42,10 +45,17 @@ inputPanel(
 )
 
 renderPlot({
+  # Line bellow sets random seed, if commentend everytime that RStudio build charts they will be different (even with same sample size)
   set.seed(9486)
+  
+  
+  # Number of observations
   n <- 10^as.numeric(input$sample)
+
+  # Mean as defined by the slider
   mu <- as.numeric(input$media)
   
+  # Generation of X (following selected distribution and mean)
   x <- switch(input$dist, 
         "1" = runif(n,0,2*mu),
         "2" = rbinom(n,1,mu),
@@ -53,15 +63,25 @@ renderPlot({
         "4" = rpois(n,lambda=mu),
         "5" = rcauchy(n))
     
-    
+  # Cumulative sum of X from 1 to n
   s <- cumsum(x)
+  
+  # Generation of a vector from 1 to n
   d <- 1:n
+  
+  # For a better visualization, if n=10 then each dot os plotted are "o" else "."  
   ch <- 'o'
   if(n>10)
     ch <- '.'
+  
+  # Chart plot
   plot(d,s/d,log='x', pch=ch,ylim=c(0,max(s/d)),xlab='X',ylab='Frequency')
-  abline(h=mean(x),col=3)
-  abline(h=mu,col=2)
+  
+  # Line showing sample calculated mean
+  abline(h=mean(x),col="GREEN")
+  
+  # Line showing user defined mean
+  abline(h=mu,col="RED")
 })
 ```
 
@@ -84,10 +104,13 @@ https://www.youtube.com/watch?v=epq-dpMJIxs
 
 ```{r, echo=FALSE}
 inputPanel(
-  sliderInput("sample2", label = "Quantidade de Amostras (10^n):",
-              min = 1, max = 8, value = 1, step = 1),
-  sliderInput("xs", label = "Quantidade de v.a.:",
-              min = 1, max= 30, value = 1, step=1),
+  # Number of observations to be used on chart (from 10^1 to 10^8 observations). 
+  sliderInput("sample2", label = "Quantidade de Amostras (10^n):", min = 1, max = 8, value = 1, step = 1),
+  
+  # Number o random variables to calculate Sn.
+  sliderInput("xs", label = "Quantidade de v.a.:", min = 1, max= 30, value = 1, step=1),
+  
+  # Distribution to be used to build the chart.
   radioButtons("dist2", "Selecione:",
              c("Unif." = 1,
                "Binom." = 2,
@@ -96,40 +119,64 @@ inputPanel(
 )
 
 renderPlot({
-  #set.seed(9486)
+  # Line bellow sets random seed, if commentend everytime that RStudio build charts they will be different (even with same sample size)
+  set.seed(9486)
+  
+  # Number of observations
   n <- 10^as.numeric(input$sample2)
+  
+  # Number o random variables to calculate Sn
   xs <- as.numeric(input$xs)
+  
+  # Uniform distribution parameters
   unif_a <- 0 
   unif_b <- 1
+  
+  # Beta distribution parameters
   beta_a <- 3
   beta_b <- 1
+  
+  # Binomial distribution parameters
   bino_p <- 0.5
   bino_size <- 1
+  
+  # Exponential distribution parameter
   lambda <- 1
   
+  # Calculating mean (as previously selected)
   mu <- switch(input$dist, 
-        "1" = (unif_a+unif_b)/2,
-        "2" = n*bino_p,
-        "3" = beta_a/(beta_a+beta_b),
-        "4" = 1/lambda)
-  sigma <- switch(input$dist2, 
-        "1" = ((unif_b-unif_a)^2)/12,
-        "2" = n*p*(1-p),
-        "3" = (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2,
-        "4" = 1/lambda^2)
+        "1" = (unif_a+unif_b)/2,      # for Uniform distribution
+        "2" = n*bino_p,               # for Binomial distribution
+        "3" = beta_a/(beta_a+beta_b), # for Beta distribution
+        "4" = 1/lambda)               # for Exponential distribution
   
+  # Calculating variance (as previously selected)
+  sigma <- switch(input$dist2, 
+        "1" = ((unif_b-unif_a)^2)/12,                               # for Uniform distribution
+        "2" = n*p*(1-p),                                            # for Binomial distribution
+        "3" = (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2,  # for Beta distribution
+        "4" = 1/lambda^2)                                           # for Exponential distribution
+  
+  # Definition of cumulative variable for Sn
   x <- 0
   
+  # Multiple generation of X (as previously selected)
   for(i in 1:xs){
     d <- switch(input$dist2, 
-        "1" = runif(n,unif_a,unif_b),
-        "2" = rbinom(n,bino_size,mu),
-        "3" = rbeta(n,beta_a,beta_b),
-        "4" = rexp(n,rate=1/mu))
-    x <- x + d
+        "1" = runif(n,unif_a,unif_b), # Uniform istribution
+        "2" = rbinom(n,bino_size,mu), # Binomial distribution
+        "3" = rbeta(n,beta_a,beta_b), # Beta distribution
+        "4" = rexp(n,rate=1/mu))      # Exponential distribution
+    x <- x + d # Cumulative sum of X
   }
+  
+  # CLT application
   y <- (x-(xs*mu))/sqrt(xs*sigma^2)
+  
+  # Chart plot
   hist(y, breaks="FD",probability=TRUE)
+  
+  # Density
   lines(density(y),col="BLUE")
 })
 ```
