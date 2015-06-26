@@ -18,6 +18,15 @@ Following libraries are required in their newest version:
 - bitops
 - rmarkdown
 - shiny
+- mime
+- stringi
+- magrittr
+- evaluate
+- digest
+- formatR
+- highr
+- markdown
+- stringr
 
 ### Execution
 
@@ -30,7 +39,7 @@ The default Internet Browser will open showing the presentation. Use keyboard ar
 
 After pressing the "Run Presentation" button, sometimes the new RStudio window must be blank or present some graphical glitches, in these cases just ignore it and press the "Open in Browser" button.
 
-After pressing the "Run Presentation" button, sometimes appears the interactive controles are shown, but not charts (appearing some red text), in these cases close the window and press again the "Run Presentaion" button.
+After pressing the "Run Presentation" button, sometimes appears the interactive controles are shown, but not charts (appearing some red text), in these cases close the window and press again the "Run Presentation" button.
 
 Those errors occurs for unknown reasons and happens randomly.
 
@@ -56,6 +65,15 @@ As seguintes bibliotecas são requeridas em suas versões mais novas:
 - bitops
 - rmarkdown
 - shiny
+- mime
+- stringi
+- magrittr
+- evaluate
+- digest
+- formatR
+- highr
+- markdown
+- stringr
 
 ## Execução
 
@@ -68,7 +86,7 @@ O navegador de Internet padrão abrirá uma janela mostrando a apresentação. U
 
 Depois de pressionar o botão "Run Presentation", algumas vezes a nova janela do RStudio pode estar em branco ou apresentando alguns problemas gráficos, nestes casos, apenas ignore e pressione o botão "Open in Browser".
 
-Depois de pressionar o botão "Run Presentation", algumas vezes aparecem os controles interativos, mas não os gráficos (aparecendo algum texto em vermelho), nestes casos, feche a janela e pressione novamente o botão "Run Presentaion".
+Depois de pressionar o botão "Run Presentation", algumas vezes aparecem os controles interativos, mas não os gráficos (aparecendo algum texto em vermelho), nestes casos, feche a janela e pressione novamente o botão "Run Presentation".
 
 Esses erros ocorrem por motivo desconhecido e de forma aleatória.
 
