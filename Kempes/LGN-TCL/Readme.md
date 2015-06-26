@@ -27,6 +27,13 @@ Following libraries are required in their newest version:
 - highr
 - markdown
 - stringr
+- Rcpp
+- httpuv
+- jsonlite
+- xtable
+- R6
+- shiny
+- RJSONIO
 
 ### Execution
 
@@ -74,6 +81,13 @@ As seguintes bibliotecas são requeridas em suas versões mais novas:
 - highr
 - markdown
 - stringr
+- Rcpp
+- httpuv
+- jsonlite
+- xtable
+- R6
+- shiny
+- RJSONIO
 
 ## Execução
 
