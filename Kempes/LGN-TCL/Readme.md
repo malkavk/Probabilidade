@@ -9,7 +9,9 @@ This interactive presentation contains applications of the Law of Large Numbers 
 
 RStudio 0.99.441 or higher.
 
-Following libraries are required in their newest version:
+Some packages are required in newest version. These packages may be installed executing "install-dependencies.R" file.
+
+Following the require packages list:
 
 - knitr
 - yaml
@@ -32,8 +34,9 @@ Following libraries are required in their newest version:
 - jsonlite
 - xtable
 - R6
-- shiny
 - RJSONIO
+
+
 
 ### Execution
 
@@ -63,7 +66,9 @@ O arquivo "aula-LGN-TCL.Rmd" foi gerado no RStudio, tendo código Markdown/Shiny
 
 RStudio 0.99.441 ou superior.
 
-As seguintes bibliotecas são requeridas em suas versões mais novas:
+Alguns pacotes são requeridos em suas versões mais novas. Esses pacotes pode ser instalados executando o arquivo "install-dependencies.R".
+
+A seguir, a lista de pacotes requeridos:
 
 - knitr
 - yaml
@@ -86,8 +91,8 @@ As seguintes bibliotecas são requeridas em suas versões mais novas:
 - jsonlite
 - xtable
 - R6
-- shiny
 - RJSONIO
+
 
 ## Execução
 
