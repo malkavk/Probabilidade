@@ -66,7 +66,7 @@ O arquivo "aula-LGN-TCL.Rmd" foi gerado no RStudio, tendo código Markdown/Shiny
 
 RStudio 0.99.441 ou superior.
 
-Alguns pacotes são requeridos em suas versões mais novas. Esses pacotes pode ser instalados executando o arquivo "install-dependencies.R".
+Alguns pacotes são requeridos em suas versões mais novas. Esses pacotes podem ser instalados executando o arquivo "install-dependencies.R".
 
 A seguir, a lista de pacotes requeridos:
 
