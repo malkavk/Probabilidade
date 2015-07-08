@@ -45,7 +45,7 @@ inputPanel(
 )
 
 renderPlot({
-  # Line bellow sets random seed, if commentend everytime that RStudio build charts they will be different (even with same sample size)
+  # Line bellow sets random seed. If commentend everytime that RStudio build charts they will be different (even with same sample size)
   set.seed(9486)
   
   
@@ -153,7 +153,7 @@ renderPlot({
   # Calculating variance (as previously selected)
   sigma <- switch(input$dist2, 
         "1" = ((unif_b-unif_a)^2)/12,                               # for Uniform distribution
-        "2" = n*p*(1-p),                                            # for Binomial distribution
+        "2" = n*bino_p*(1-bino_p),                                            # for Binomial distribution
         "3" = (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2,  # for Beta distribution
         "4" = 1/lambda^2)                                           # for Exponential distribution
   
@@ -163,10 +163,10 @@ renderPlot({
   # Multiple generation of X (as previously selected)
   for(i in 1:xs){
     d <- switch(input$dist2, 
-        "1" = runif(n,unif_a,unif_b), # Uniform istribution
-        "2" = rbinom(n,bino_size,mu), # Binomial distribution
-        "3" = rbeta(n,beta_a,beta_b), # Beta distribution
-        "4" = rexp(n,rate=1/mu))      # Exponential distribution
+        "1" = runif(n,unif_a,unif_b),     # Uniform istribution
+        "2" = rbinom(n,bino_size,bino_p), # Binomial distribution
+        "3" = rbeta(n,beta_a,beta_b),     # Beta distribution
+        "4" = rexp(n,rate=1/mu))          # Exponential distribution
     x <- x + d # Cumulative sum of X
   }
   
