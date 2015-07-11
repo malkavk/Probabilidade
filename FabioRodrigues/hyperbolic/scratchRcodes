@@ -1,0 +1,110 @@
+#
+######1
+Theta <- c(2,1,1,0)
+Theta2 <- hyperbChangePars(1, 2, Theta)
+hyperbRange <- hyperbCalcRange(Theta2, tol = 10^(-3))
+par(mfrow = c(1,2))
+curve(dhyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+       n = 1000)
+title("Density of the\n Hyperbolic Distribution")
+curve(phyperb(x, Theta), from = hyperbRange[1], to = hyperbRange[2],
+       n = 1000)
+title("Distribution Function of the\n Hyperbolic Distribution")
+#
+######2
+#
+Theta <- c(2,1,1,0)
+Theta2 <- hyperbChangePars(1, 2, Theta)
+hyperbRange <- hyperbCalcRange(Theta2, tol = 10^(-3))
+par(mfrow = c(1,2))
+curve(dhyperb(x, Theta2), from = hyperbRange[1], to = hyperbRange[2],
+      n = 1000)
+title("Density of the\n Hyperbolic Distribution")
+curve(phyperb(x, Theta2), from = hyperbRange[1], to = hyperbRange[2],
+      n = 1000)
+title("Distribution Function of the\n Hyperbolic Distribution")
+#
+#######3
+#
+Theta <- c(2,1,1,0)
+Theta2 <- hyperbChangePars(1, 2, Theta)
+dataVector <- rhyperb(500, Theta2)
+curve(dhyperb(x, Theta2), range(dataVector)[1], range(dataVector)[2],
+      n = 500)
+hist(dataVector, freq = FALSE, add =TRUE)
+title("Density and Histogram\n of the Hyperbolic Distribution")
+logHist(dataVector, main =
+          "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
+curve(log(dhyperb(x, Theta2)), add = TRUE,
+      range(dataVector)[1], range(dataVector)[2], n = 500)
+#
+#######4
+#
+Theta2 <- c(alpha=1,beta=2,delta=1,mu=0)
+#Theta2 <- hyperbChangePars(1, 2, Theta)
+dataVector <- rhyperb(500, Theta2)
+curve(dhyperb(x, Theta2), range(dataVector)[1], range(dataVector)[2],
+      n = 500)
+hist(dataVector, freq = FALSE, add =TRUE)
+title("Density and Histogram\n of the Hyperbolic Distribution")
+logHist(dataVector, main =
+          "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
+curve(log(dhyperb(x, Theta2)), add = TRUE,
+      range(dataVector)[1], range(dataVector)[2], n = 500)
+#
+######5
+#
+set.seed(12345)
+par(mfrow = c(1,3))
+Theta2 <- c(alpha=1,beta=2,delta=1,mu=0)
+dataVector <- rhyperb(500, Theta2)
+curve(dhyperb(x, Theta2), range(dataVector)[1], range(dataVector)[2],
+      n = 500)
+hist(dataVector, freq = FALSE, add =TRUE)
+title("Density and Histogram\n of the Hyperbolic Distribution")
+############
+logHist(dataVector, main =
+          "Log-Density and Log-Histogram\n of the Hyperbolic Distribution")
+curve(log(dhyperb(x, Theta2)), add = TRUE,
+      range(dataVector)[1], range(dataVector)[2], n = 500)
+##############
+curve(phyperb(x, Theta2), from = range(dataVector)[1], to = range(dataVector)[2],
+      n = 1000)
+title("Distribution Function of the\n Hyperbolic Distribution")
+#
+####6
+#
+library(nleqslv)
+fun = function(a){
+  b <- numeric(2)
+  x <- a[1]
+  y <- a[2]
+  b[1] <- x^2 + y - 2
+  b[2] <- 3*x + (y^2)/3 - 4
+  b
+}
+start <- c(0,0)
+rest = nleqslv(start, fun, control=list(btol=.01))
+x = rest$x[1]
+y = rest$x[2]
+x^2 + y 
+3*x + (y^2)/3
+#
+#######
+#
+x <- 5
+lambda <- 1 
+
+fun <- function(y){
+  
+  y^(lambda-1)*exp(-x/2 * (y+(y^-1)))
+}
+
+1/2 * integrate( fun  , lower=0, upper=Inf)$value
+
+besselK(5, 1)
+#
+######
+#
+expr <- expression(y^(lambda-1)*exp(-x/2 * (y+(y^-1))))
+D(expr, "y")
