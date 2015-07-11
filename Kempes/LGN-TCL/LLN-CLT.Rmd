@@ -1,0 +1,333 @@
+---
+title: "Law of Large Numbers (LLN) and Central Limit Theorem (CTL)"
+date: "30th June 2015"
+output: slidy_presentation
+bibliography: lgn_tcl.bib
+---
+
+```{r definitions, echo=FALSE}
+### This block contains just definitions used to generate animations in this presentation.
+
+
+# Predefinitions
+
+## Number of observations
+n <- 10^6
+
+## Defined mean (Uniform will be defined between 0 2*mu)
+pmu <- 0.8
+
+# Wherever necessary this seed will be used for random generation
+Seed <- 23325
+
+# Number of X variables
+xs <- 30
+
+
+
+## Beta distribution parameters
+beta_a <- 3
+beta_b <- 1
+
+
+
+
+
+
+# Animation Definition
+frames <- 100
+
+
+## Calculating mean (as previously defined)
+
+mu_beta <- beta_a/(beta_a+beta_b) # for Beta distribution
+ 
+
+## Calculating variance (as previously defined)
+sigma_beta <- (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2  # for Beta distribution
+
+# Progress bar plot 
+printProgressBar <- function(len,label,pos){
+  # Reset chart 1 (progress bar) 
+  par(fg=1)
+  
+  # Print progress bar
+  plot(-5, xlim = c(1,len), ylim = c(0, .3), axes = F, xlab = "", ylab = "", main = label)
+  axis(1)
+  abline(v=pos, lwd=5, col = rgb(0, 0, 255, 255, maxColorValue=255))
+  
+}
+
+# Layout definition
+setLayout <- function(){
+  # Layout Definition
+  layout(matrix(c(1, rep(2, 5)), 6, 1))
+  
+  ## Margins
+  par(mar=c(4,4,2,1) + 0.1)
+}
+
+# Generate an animation illustrating LLN
+# Parameters: pType -> type of distribution (see lines 101 to 106); pN -> Number of Observations
+# Obseravtion: Plots every single frame of an animation. Some definitions are setted from global variables. 
+generateLLNAnimation <-function(pType, pN){
+  
+  # Distribution parameters
+
+  ## Uniform distribution parameters
+  unif_a <- 0 
+  unif_b <- 1
+  
+  ## Binomial distribution parameters
+  bino_p <- 0.5
+  bino_size <- 1
+  
+  ## Exponential and Poisson  distribution parameter
+  lambda <- 1
+  
+  
+  setLayout()
+  # Animation loop
+  for (i in 1:frames) {
+    
+    # Random seed definition
+    set.seed(Seed)
+    
+    # Observations per frame
+    ni <- ceiling(pN^(i/frames))
+    
+    if(ni==0) ni <-1
+    
+    # Plot progress bar
+    printProgressBar(pN,"n",ni)
+    
+    # Random values generation
+    ## Calculating mean
+    mu <- switch(pType,
+                 "1" = (unif_b-unif_a)/2,
+                 "2" = bino_size*bino_p,
+                 "3" = 1/lambda,
+                 "4" = lambda,
+                 "5" = 0.1) # This is just a reference point, since Cauchy have no mean
+    ## Generation of X (following selected distribution and mean)
+    x <- switch(pType, 
+                  "1" = runif(ni,min=unif_a,max=unif_b),
+                  "2" = rbinom(ni,size=bino_size,prob=bino_p),
+                  "3" = rexp(ni,rate=1/mu),
+                  "4" = rpois(ni,lambda=lambda),
+                  "5" = rcauchy(ni))
+    
+    
+    
+    
+    ## Cumulative summary vector
+    summ <- cumsum(x)
+    
+    ## n-divisor vector
+    div <- 1:ni
+    
+    LLN <- summ/div
+    # Chart plot
+    
+    plot(div,LLN,log='x', pch=20,ylim=c(min(LLN),max(LLN)),xlab='S(x)/n',ylab='Frequency',xlim=c(1,pN))
+    ## Current sampĺe mean
+    abline(h=mean(x),col="GREEN")
+    ## Predefined mean
+    abline(h=mu,col="RED")
+  }
+}
+
+
+# Generate an animation illustrating CLT
+# Parameters: pType -> type of distribution (see lines 101 to 106); pN -> Number of Observations
+# Obseravtion: Plots every single frame of an animation. Some definitions are setted from global variables. 
+generateCLTAnimation <- function(pType, pN){
+  
+  # Predefinitions
+  
+  # Number of X variables
+  xs <- 30
+  
+  # Uniform distribution parameters
+  unif_a <- 0 
+  unif_b <- 1
+  
+  # Beta distribution parameters
+  beta_a <- 3
+  beta_b <- 1
+  
+  # Binomial distribution parameters
+  bino_p <- 0.5
+  bino_size <- 1
+  
+  # Exponential distribution parameter
+  lambda <- 1
+  
+  ## Calculating mean (as previously defined)
+  mu <- switch(pType, 
+               "1" = (unif_a+unif_b)/2,      # for Uniform distribution
+               "2" = bino_size*bino_p,       # for Binomial distribution
+               "3" = beta_a/(beta_a+beta_b), # for Beta distribution
+               "4" = 1/lambda)               # for Exponential distribution
+  
+  ## Calculating variance (as previously defined)
+  sigma <- switch(pType, 
+                  "1" = ((unif_b-unif_a)^2)/12,                               # for Uniform distribution
+                  "2" = bino_size*bino_p*(1-bino_p),                          # for Binomial distribution
+                  "3" = (beta_a*beta_b)/(beta_a+beta_b+1)*(beta_a+beta_b)^2,  # for Beta distribution
+                  "4" = 1/lambda^2)                                           # for Exponential distribution
+  
+  
+  
+  # Layout Definition
+  layout(matrix(c(1, rep(2, 5)), 6, 1))
+  
+  ## Margins
+  par(mar=c(4,4,2,1) + 0.1)
+  
+  xn<-0
+  
+  # Animation loop
+  for (z in 1:frames) {
+    
+    
+    
+    # Random seed definition
+    set.seed(Seed)
+    
+    
+    # Plot progress bar
+    printProgressBar(xs,"i",xn)
+    
+    # Current Xi variables
+    
+    if(xn !=ceiling(xs*z/frames)){
+      xn <- ceiling(xs*z/frames)
+      # Random values generation
+      
+      ## Definition of cumulative variable for Sn
+      x<-vector(length=n,mode="numeric")
+      y <- vector(length=n,mode="numeric") # CLT application variable
+      
+      ## Multiple generation of X (as previously selected)
+      for(k in 1:xn){
+        
+        d <- switch(pType, 
+                    "1" = runif(pN,unif_a,unif_b),     # Uniform istribution
+                    "2" = rbinom(pN,bino_size,bino_p), # Binomial distribution
+                    "3" = rbeta(pN,beta_a,beta_b),     # Beta distribution
+                    "4" = rexp(pN,rate=1/mu))          # Exponential distribution
+        x <- x + d # Cumulative sum of X
+      }
+      
+      # CLT application
+      y <- (x-(z*mu))/sqrt(z*sigma^2)
+    }
+      
+    
+    # Chart plot
+    hist(y, breaks="FD",probability=TRUE,main=paste(xn,"variables and",format(n,scientific = FALSE),"observations"),xlab="CLT Aplication")
+    
+    # Density
+    lines(density(y),col="BLUE")
+    
+  }
+  
+
+
+}
+```
+
+
+Law of Large Numbers (LLN) and Central Limit Theorem (CTL)
+==========================================================
+
+# Law of Large Numbers (LLN)
+
+## Definition
+
+Be $X_1, X_2, ...$ random variables with finite variances and be $S_n = X_1+X_2+...+X_n$. The sequence ${X_n:n\geq1}$ satisfies the *Law of Large Numbers* if: 
+
+---------------------------------------------
+$\frac{S_n}{n}-E(\frac{S_n}{n}) \xrightarrow{\mathbb{P}r}0$
+---------------------------------------------
+
+
+[@Magalhaes2011]
+
+http://vis.supstat.com/2013/04/law-of-large-numbers/
+
+
+
+## Uniform Distribution Example
+
+```{r LLN-Uniform, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.1}
+generateLLNAnimation(1,n)
+```  
+
+## Binomial Distribution Example
+
+```{r LLN-Binomial, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.1}
+generateLLNAnimation(2,n)
+```
+
+## Exponential Distribution Example
+
+```{r LLN-Exponential, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.1}
+generateLLNAnimation(3,n)
+```
+
+
+## Poisson Distribution Example
+
+```{r LLN-Poisson, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.1}
+generateLLNAnimation(4,n)
+```
+  
+
+## Cauchy Distribution Example
+
+```{r LLN-Cauchy, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.1}
+generateLLNAnimation(5,n)
+```
+
+
+# Central Limit Theorem (CLT)
+
+## Definition
+
+Be ${X_n:n\geq1}$ independent random variables, identically distributed and with expected value $\mu$ and variance $\sigma^2$, with $0<\sigma^2<\infty$. For $S_n=X_1+X_2+...+X_n$,  
+
+---------------------------------------------
+$\dfrac{S_n-n\mu}{{\sqrt{n\sigma^2}}} \xrightarrow{\mathbb{D}} N(0,1)$
+---------------------------------------------
+
+[@Magalhaes2011]
+
+https://www.youtube.com/watch?v=epq-dpMJIxs
+
+
+
+## Uniform Distribution Example
+
+```{r CLT-Uniform, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.5}
+generateCLTAnimation(1,n)
+```
+
+## Binomial Distribution Example
+
+```{r CLT-Binomial, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.5}
+generateCLTAnimation(2,n)
+```
+
+## Beta Distribution Example
+
+```{r CLT-Beta, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.5}
+generateCLTAnimation(3,n)
+```
+
+## Exponential Distribution Example
+
+```{r CLT-Exponential, fig.width=7, fig.height=6, fig.show='animate',echo=FALSE, interval=0.5}
+generateCLTAnimation(4,n)
+```
