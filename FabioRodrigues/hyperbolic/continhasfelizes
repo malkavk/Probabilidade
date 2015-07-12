@@ -1,0 +1,23 @@
+library(rootSolve)
+model=function(x){ 
+  k1= 0
+  f1= -(x[1]*x[11]*x[2])/(x[3]^2-x[1]^2) + ((x[4]*(x[6]*(/sqrt((x[3]^2-x[1]^2)))))/(x[5]*(x[6]*(/sqrt((x[3]^2-x[1]^2))))))*x[1]/(/sqrt(x[3]^2-x[1]^2))
+  k2= 0
+  f2= (x[2]-(1/2))*sum((x[7]-x[8])/(x[6]^2+(x[7]-x[8])^2))-x[3]*sum((x[9](x[3]*(/sqrt((x[6]^2-(x[7]-x[8]))))))/(x[10](x[3]*(/sqrt((x[6]^2-(x[7]-x[8]))))))*(x[7]-x[8]/(/sqrt(x[6]^2+(x[7]-x[8])^2))))-x[11]*x[1]
+  k3= 0
+  f3= 0
+  c(f1=f1, f2=f2, f3=f3)
+} 
+solutiona=multiroot(f=model, start=c(1,1,1,1,1,1,1,1,1,1,1))
+solutiona
+beta <- solutiona$root[1]
+lambda <- solutiona$root[2]
+alpha <- solutiona$root[3]
+klinha <- solutiona$root[4]
+k <- solutiona$root[5]
+delta <- solutiona$root[6]
+xi <- solutiona$root[7]
+mu <- solutiona$root[8]
+klinha2 <- solutiona$root[9]
+k2 <- solutiona$root[10]
+n <- solutiona$root[11]
