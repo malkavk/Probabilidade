@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm,amsfonts,bm,amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage[left=2.00cm, right=2.00cm, top=2.45cm, bottom=2.45cm]{geometry}
+
+
+\setkeys{Gin}{width=0.9\textwidth}
+
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\section{A função Hiperbólica}
+
+$gh = a(\delta^2+(X-\mu)^2)^{\frac{\lambda-\frac{1}{2}}{2}}K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(X-\mu)^2})\exp{[\beta(X-\mu)]}$\\
+
+$\prod\limits_{i=1}^{n}[a(\delta^2+(X-\mu)^2)^{\frac{\lambda-\frac{1}{2}}{2}}K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(X-\mu)^2})\exp{[\beta(X-\mu)]}]$\\
+
+$n\ln a+\frac{\lambda-\frac{1}{2}}{2}\sum\limits_{i=1}^{n}\ln[\delta^2+(x_i-\mu)^2] + \sum\limits_{i=1}^{n}\ln[K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(x_i-\mu)^2}) ]+\beta\sum\limits_{i=1}^{n}(x_i-\mu)$\\
+
+
+Onde\\
+
+$\ln a = \ln [\frac{(\alpha^2-\beta^2)^\frac{\lambda}{2}}{\sqrt{2\pi}\alpha^{\lambda-\frac{1}{2}}\delta^\lambda K_\lambda(\delta\sqrt{\alpha^2-\beta^2})}]$\\
+
+$\ln a = \frac{\lambda}{2}\ln(\alpha^2-\beta^2)-\ln(\sqrt{2\pi})-(\lambda-\frac{1}{2})\ln\alpha - \lambda\ln\delta-ln(K_\lambda(\delta\sqrt{\alpha^2-\beta^2}))$\\
+
+Definindo
+
+$K'_\lambda(x) = -\frac{\lambda}{x}K_\lambda(x)-K_{\lambda-1}(x)$
+
+\subsection{Derivando em relação a $\beta$}
+
+
+$\frac{\partial \ell^*}{\partial \beta} = -\frac{\beta{n\lambda}}{\alpha^2-\beta^2}-[\ln(K_\lambda(\delta\sqrt{\alpha^2-\beta^2}))]'+ \sum\limits_{i=1}^{n}(x_i-\mu)$\\
+
+$\frac{\partial \ell^*}{\partial \beta} = -\frac{\beta{n\lambda}}{\alpha^2-\beta^2}+\frac{K'_\lambda(\delta\sqrt{\alpha^2-\beta^2})}{K_\lambda(\delta\sqrt{\alpha^2-\beta^2})}\frac{\beta}{\sqrt{\alpha^2-\beta^2}}+ \sum\limits_{i=1}^{n}(x_i-\mu)$
+
+\subsection{Derivando em relação a $\mu$}
+
+$\frac{\partial \ell^*}{\partial \mu} = \frac{\lambda-\frac{1}{2}}{2}\sum\limits_{i=1}^{n}\frac{-2(x_i-\mu)}{\delta^2+(x_i-\mu)^2}+\sum\limits_{i=1}^{n}[\frac{K'_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2-(x_i-\mu)^2})}{K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2-(x_i-\mu)^2})} \frac{\alpha}{2}\frac{-2(x_i-\mu)}{\sqrt{\delta^2+(x_i-\mu)^2}}] -n\beta$\\
+
+$\frac{\partial \ell^*}{\partial \mu} = (\lambda-\frac{1}{2})\sum\limits_{i=1}^{n}\frac{x_i-\mu}{\delta^2+(x_i-\mu)^2}-\alpha\sum\limits_{i=1}^{n}[\frac{K'_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2-(x_i-\mu)^2})}{K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2-(x_i-\mu)^2})} \frac{(x_i-\mu)}{\sqrt{\delta^2+(x_i-\mu)^2}}]  -n\beta$
+
+\subsection{Derivando em relação a $\delta$}
+
+$\frac{\partial \ell^*}{\partial \delta} = n[-\frac{\lambda}{\delta}-\frac{K'_\lambda(\delta\sqrt{\alpha^2-\beta^2})}{K_\lambda(\delta\sqrt{\alpha^2-\beta^2}})] + (\frac{\lambda-\frac{1}{2}}{2})\sum\limits_{i=1}^{n}\frac{2\delta}{\delta^2+(x_i-\mu)^2} + \sum\limits_{i=1}^{n}\frac{K'_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(x_i-\mu)^2})}{K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(x_i-\mu)^2})} \frac{\alpha}{2}[\frac{2\delta}{\sqrt{\delta^2+(x_i-\mu)^2}}]$\\
+
+$\frac{\partial \ell^*}{\partial \delta} = n[-\frac{\lambda}{\delta}-\frac{K'_\lambda(\delta\sqrt{\alpha^2-\beta^2})}{K_\lambda(\delta\sqrt{\alpha^2-\beta^2}})] + (\lambda-\frac{1}{2})\sum\limits_{i=1}^{n}\frac{\delta}{\delta^2+(x_i-\mu)^2} + \sum\limits_{i=1}^{n}\frac{K'_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(x_i-\mu)^2})}{K_{\lambda-\frac{1}{2}}(\alpha\sqrt{\delta^2+(x_i-\mu)^2})} \frac{\alpha}{2}[\frac{2\delta}{\sqrt{\delta^2+(x_i-\mu)^2}}]$
+
+\end{document}
