@@ -1,0 +1,19 @@
+library(HyperbolicDist)
+set.seed(12345)
+par(mfrow = c(1,3))
+N=4
+Theta <- c(alpha = 2, beta = 1, delta = 1, mu = 0)
+X <- rhyperb(10^N, Theta)
+curve(dhyperb(x, Theta), range(X)[1], range(X)[2],
+      n = 10^N, col = "BLUE")
+hist(X, freq = FALSE, add =TRUE, probability = TRUE, breaks = "FD")
+title("Densidade e Histograma\n da Distribuição Hiperbólica")
+############
+logHist(X, main =
+          "Log-Densidade e Log-Histograma\n da Distribuição Hiperbólica", breaks = "FD")
+curve(log(dhyperb(x, Theta)), add = TRUE,
+      range(X)[1], range(X)[2], n = 10^N, col = "RED")
+############
+curve(phyperb(x, Theta), from = range(X)[1], to = range(X)[2],
+      n = 10^N)
+title("FDA - Distribuição Hiberbólica")
