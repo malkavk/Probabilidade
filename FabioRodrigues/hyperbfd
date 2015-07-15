@@ -1,0 +1,24 @@
+library(HyperbolicDist)
+a = 1
+b = 0
+Theta = c(lambda = 1, alpha=a, beta=b, delta=1, mu=0)
+
+curve (((1+x^2)^(1/4)) *
+         ( (sqrt(a^2-b^2)) / ( sqrt(2*pi) * sqrt(a) * besselK(sqrt(a^2-b^2), 1))) *
+         ( exp(b*x) * besselK(a*sqrt(1+x^2), 1/2)), from = -10, to = 10, ylim=c(0,1))
+
+hist(rghyp(500, Theta), breaks='FD', probability = T, add=T)
+
+# Testando se é uma densidade
+fun <- function(x){
+  
+  ((1+x^2)^(1/4)) *
+    ( (sqrt(a^2-b^2)) / ( sqrt(2*pi) * sqrt(a) * besselK(sqrt(a^2-b^2), 1))) *
+    ( exp(b*x) * besselK(a*sqrt(1+x^2), 1/2))  
+  
+}
+
+#Suporte na Reta
+
+integrate(fun, -Inf, Inf)
+
